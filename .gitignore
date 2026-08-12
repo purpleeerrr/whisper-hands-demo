@@ -1,0 +1,10 @@
+.DS_Store
+**/.DS_Store
+node_modules/
+dist/
+.env
+*.sqlite
+*.db
+coverage/
+__pycache__/
+*.py[cod]

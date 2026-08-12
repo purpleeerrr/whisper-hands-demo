@@ -1,0 +1,1 @@
+"""Whisper Hands domain package."""

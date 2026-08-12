@@ -1,0 +1,71 @@
+[
+  {
+    "name": "01_amz123_aba_keywords",
+    "url": "https://www.amz123.com/usatopkeywords",
+    "ok": false,
+    "error": "Error: page.goto: net::ERR_CONNECTION_CLOSED at https://www.amz123.com/usatopkeywords\nCall log:\n\u001b[2m  - navigating to \"https://www.amz123.com/usatopkeywords\", waiting until \"domcontentloaded\"\u001b[22m\n"
+  },
+  {
+    "name": "02_ipevo_v4k_official",
+    "url": "https://us.ipevo.com/products/v4k-store",
+    "finalUrl": "https://us.ipevo.com/products/v4k-store",
+    "title": "IPEVO V4K | IPEVO Online Store – IPEVO US",
+    "ok": true
+  },
+  {
+    "name": "03_ipevo_reviews_snapshot",
+    "url": "https://shopsavvy.com/products/ipevo-v4k-document-camera",
+    "finalUrl": "https://shopsavvy.com/products/ipevo-v4k-document-camera",
+    "title": "IPEVO V4K Document Camera - Best Price & Reviews | ShopSavvy",
+    "ok": true
+  },
+  {
+    "name": "04_stream_deck_neo_official",
+    "url": "https://www.elgato.com/us/en/p/stream-deck-neo",
+    "finalUrl": "https://www.elgato.com/us/en/p/stream-deck-neo",
+    "title": "Stream Deck Neo | Elgato",
+    "ok": true
+  },
+  {
+    "name": "05_stream_deck_plus_amazon_snapshot",
+    "url": "https://slickdeals.net/f/19118866-159-99-elgato-stream-deck-studio-controller-at-amazon",
+    "finalUrl": "https://slickdeals.net/f/19118866-159-99-elgato-stream-deck-studio-controller-at-amazon",
+    "title": "请稍候…",
+    "ok": true
+  },
+  {
+    "name": "06_stream_deck_mini_snapshot",
+    "url": "https://www.sellersnooper.com/Technology%20Galaxy/productsByRevenue",
+    "finalUrl": "https://www.sellersnooper.com/Technology%20Galaxy/productsByRevenue",
+    "title": "Amazon Seller Profile - Products By Revenue",
+    "ok": true
+  },
+  {
+    "name": "07_logitech_reach_official",
+    "url": "https://news.logitech.com/press-releases/news-details/2024/Logitech-Reach-Flexible-Content-Camera-Now-Available-To-Order-Following-Unprecedented-Indiegogo-Campaign/default.aspx",
+    "finalUrl": "https://news.logitech.com/press-releases/news-details/2024/Logitech-Reach-Flexible-Content-Camera-Now-Available-To-Order-Following-Unprecedented-Indiegogo-Campaign/default.aspx",
+    "title": "Logitech Reach Flexible Content Camera Now Available To Order Following Unprecedented Indiegogo Campaign | Logitech",
+    "ok": true
+  },
+  {
+    "name": "08_logitech_reach_crowdfunding",
+    "url": "https://www.techspot.com/news/101630-logitech-349-articulating-arm-webcam-great-streamers-creators.html",
+    "finalUrl": "https://www.techspot.com/news/101630-logitech-349-articulating-arm-webcam-great-streamers-creators.html",
+    "title": "Logitech says its $349 articulating-arm webcam is perfect for streamers, creators, and teachers | TechSpot",
+    "ok": true
+  },
+  {
+    "name": "09_glaze_tracking_user_evidence",
+    "url": "https://www.reddit.com/r/Ceramics/comments/1vewnru/glaze_tracking/",
+    "finalUrl": "https://www.reddit.com/r/Ceramics/comments/1vewnru/glaze_tracking/",
+    "title": "Reddit - Prove your humanity",
+    "ok": true
+  },
+  {
+    "name": "10_pottery_notes_user_evidence",
+    "url": "https://www.reddit.com/r/Ceramics/comments/1qpvu20/do_you_take_notes_for_ur_ceramic_work/",
+    "finalUrl": "https://www.reddit.com/r/Ceramics/comments/1qpvu20/do_you_take_notes_for_ur_ceramic_work/?solution=78434a2ee537e88878434a2ee537e888&js_challenge=1&token=7afd7253fec22262ff1c52b1703fe9ec819b2def71cdb32f290e9b640b4f3004&jsc_orig_r=",
+    "title": "",
+    "ok": true
+  }
+]

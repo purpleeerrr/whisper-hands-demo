@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>絮手 Whisper Hands · PC 创作过程工作台</title>
+<link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+<canvas id="trailCanvas" aria-hidden="true"></canvas>
+
+<section id="intro" aria-label="Whisper Hands 首页">
+  <div class="desk-note yellow" data-page="now" data-focus="modeBlock" style="left:5%;top:11%;--r:-4deg"><span class="tiny">NOW / START</span><strong>开始一次创作</strong><p>点模式，然后安心做手上的事。</p><span class="jump">CLICK → 正在创作</span></div>
+  <div class="desk-note paper" data-page="now" data-focus="liveBlock" style="left:19%;top:8%;--r:3deg"><span class="tiny">LIVE / WORKBENCH</span><strong>蓝色杯子试片</strong><p>实时桌面、时间线和口述记录。</p><span class="jump">CLICK → 实时直播间</span></div>
+  <div class="desk-note sage" data-page="now" data-focus="timelineBlock" style="left:75%;top:11%;--r:3deg"><span class="tiny">FRAGMENTS</span><strong>待整理的碎片</strong><p>自动抓拍、留一刻和即时想法。</p><span class="jump">CLICK → 时间线</span></div>
+  <div class="desk-note blue" data-page="memory" data-focus="recordsBlock" style="left:78%;top:62%;--r:-3deg"><span class="tiny">MEMORY / LIBRARY</span><strong>翻翻以前</strong><p>找回曾经做过、搁置过的尝试。</p><span class="jump">CLICK → 创作时光库</span></div>
+  <div class="desk-note yellow" data-page="review" data-focus="reviewTimeline" style="left:6%;top:65%;--r:2deg"><span class="tiny">REVIEW</span><strong>我当时怎么做的？</strong><p>回看关键节点、犹豫和重新决定。</p><span class="jump">CLICK → 单场复盘</span></div>
+  <div class="desk-note paper" data-page="memory" data-focus="searchBlock" style="left:28%;top:74%;--r:-4deg"><span class="tiny">SEARCH / RECALL</span><strong>视觉找回</strong><p>从过去的画面和关键词里找经验。</p><span class="jump">CLICK → 历史检索</span></div>
+  <div class="desk-note blue" data-page="now" data-focus="controlBlock" style="left:61%;top:72%;--r:4deg"><span class="tiny">F8 / MARK</span><strong>留一刻</strong><p>灵感来了、换了部件、觉得不对了。</p><span class="jump">CLICK → 记录控制</span></div>
+  <div class="desk-note sage" data-page="setting" data-focus="privacyBlock" style="left:84%;top:37%;--r:-5deg"><span class="tiny">SETTING / PRIVACY</span><strong>放心，它只在本地</strong><p>录制状态清楚可见，也可以一键清空。</p><span class="jump">CLICK → 设置</span></div>
+
+  <div class="desk-tool" style="left:35%;top:9%;--r:-11deg" aria-hidden="true"><svg viewBox="0 0 120 120" fill="none"><path d="M28 92L85 34" stroke="currentColor" stroke-width="6" stroke-linecap="round"/><path d="M83 34l11-8-7 12" stroke="currentColor" stroke-width="2"/><path d="M25 94l12-3-8-8z" fill="currentColor" opacity=".5"/></svg></div>
+  <div class="desk-tool" style="left:58%;top:9%;--r:8deg" aria-hidden="true"><svg viewBox="0 0 120 120" fill="none"><circle cx="43" cy="45" r="15" stroke="currentColor" stroke-width="3"/><circle cx="67" cy="71" r="15" stroke="currentColor" stroke-width="3"/><path d="M52 56L95 19M58 61l38 40" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></div>
+  <div class="desk-tool" style="left:24%;top:46%;--r:5deg" aria-hidden="true"><svg viewBox="0 0 120 120" fill="none"><rect x="15" y="44" width="90" height="30" rx="2" stroke="currentColor" stroke-width="2"/><path d="M28 45v11M40 45v7M52 45v11M64 45v7M76 45v11M88 45v7" stroke="currentColor" stroke-width="1.4"/></svg></div>
+  <div class="desk-tool" style="left:52%;top:78%;--r:-8deg" aria-hidden="true"><svg viewBox="0 0 120 120" fill="none"><path d="M31 65c12-29 42-31 53-6 10 23-6 42-31 35-22-6-27-31-11-44 11-9 29-7 37 5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><path d="M77 78c9 2 17 9 22 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+
+  <div class="intro-center"><button class="brand-button" id="enterButton"><span class="brand-en">WHISPER HANDS</span><span class="brand-cn">絮手</span><span class="brand-hint">DRAG NOTES · CLICK A NOTE TO JUMP · CLICK NAME TO ENTER</span></button></div>
+</section>
+
+<section id="loader" aria-live="polite"><div class="loader-wrap">
+  <svg class="octopus" viewBox="0 0 180 180" role="img" aria-label="小章鱼加载动画"><defs><mask id="octMask"><rect width="180" height="180" fill="black"/><path d="M49 91c0-31 17-54 41-54s41 23 41 54c0 12-5 24-14 32-7 7-19 11-27 11-9 0-20-4-28-11-9-8-13-20-13-32Z" fill="white"/><path d="M61 118c-2 20-18 18-17 5M74 129c-4 24-19 27-23 14M89 133c0 24-11 31-16 23M104 129c5 24 19 27 23 14M118 118c3 20 19 18 18 5" fill="none" stroke="white" stroke-width="11" stroke-linecap="round"/></mask></defs><g mask="url(#octMask)"><rect class="oct-fill" x="0" y="0" width="180" height="180"/></g><path class="oct-outline" d="M49 91c0-31 17-54 41-54s41 23 41 54c0 12-5 24-14 32-7 7-19 11-27 11-9 0-20-4-28-11-9-8-13-20-13-32Z"/><path class="oct-outline" d="M61 118c-2 20-18 18-17 5M74 129c-4 24-19 27-23 14M89 133c0 24-11 31-16 23M104 129c5 24 19 27 23 14M118 118c3 20 19 18 18 5"/><circle cx="76" cy="83" r="2.3" fill="var(--ink)"/><circle cx="104" cy="83" r="2.3" fill="var(--ink)"/></svg>
+  <div class="load-caption">GATHERING FRAGMENTS</div>
+</div></section>
+
+<div id="app" aria-hidden="true">
+  <header class="topbar"><h1>絮手 Whisper Hands</h1><div class="status">● DEVICE CONNECTED · LOCAL ONLY</div></header>
+  <nav class="index-tabs" aria-label="PC 端四层导航">
+    <button class="index-tab active" data-page="now" style="--rot:-1deg">NOW<small>正在创作</small></button>
+    <button class="index-tab" data-page="memory" style="--rot:1deg">MEMORY<small>创作时光库</small></button>
+    <button class="index-tab" data-page="review" style="--rot:-.5deg">REVIEW<small>单场复盘</small></button>
+    <button class="index-tab" data-page="setting" style="--rot:1.5deg">SETTING<small>设置</small></button>
+  </nav>
+  <div class="privacy-strip"><span class="rec-dot" id="recDot"></span><span id="recState">IDLE</span> · <span class="mic-state" id="micState">MIC OFF</span> · 本地存储</div>
+
+  <main class="page-shell">
+    <!-- NOW -->
+    <section class="pc-page active" id="page-now">
+      <div class="page-title"><h2>正在创作</h2><span>NOW / CAPTURE WHAT IS HAPPENING, WITHOUT BREAKING THE FLOW</span></div>
+      <div class="page-canvas" id="canvas-now">
+        <div class="drag-block" id="modeBlock" style="--left:0px;--top:10px;--w:315px"><article class="paper-card taped" style="--card-rot:-1.4deg">
+          <span class="kicker">01 / CURRENT MODE</span><h3>现在在做什么？</h3><p>点一个状态就开始记录。你不用理解“模式”，只要选择此刻的自己。</p>
+          <div class="mode-grid">
+            <button class="mode-btn" data-mode="explore"><strong>探索模式</strong><span>找灵感、翻素材、试颜色</span></button>
+            <button class="mode-btn" data-mode="create"><strong>创作模式</strong><span>正式开始做</span></button>
+            <button class="mode-btn" data-mode="execute"><strong>执行模式</strong><span>重复、流程化的步骤</span></button>
+            <button class="mode-btn" data-mode="recover"><strong>恢复模式</strong><span>休息、回看、整理</span></button>
+          </div>
+          <div class="octo-note"><span class="octo-mini"></span><span id="modeHint">选一个模式，小章鱼就开始帮你记。</span></div>
+        </article></div>
+
+        <div class="drag-block" id="liveBlock" style="--left:345px;--top:0px;--w:610px"><article class="paper-card pinned" style="--card-rot:.7deg">
+          <div class="session-header"><span>02 / LIVE DESK</span><b id="liveStatus">WAITING TO START</b></div><h3>蓝色杯子试片</h3>
+          <div class="live-window"><div class="desk-sketch"></div><div class="cup"></div></div>
+          <div class="octo-note"><span class="octo-mini"></span><span>实时画面只存在这台电脑。录制时顶部红点会一直亮着。</span></div>
+        </article></div>
+
+        <div class="drag-block" id="timelineBlock" style="--left:985px;--top:18px;--w:360px"><article class="paper-card" style="--card-rot:-1deg">
+          <span class="kicker">03 / AUTO TIMELINE</span><h3>这一刻发生了什么</h3><div class="timeline" id="timeline">
+            <div class="event"><div class="event-thumb" data-kind="AUTO" style="--r:-3deg"></div><div class="event-text"><b>14:32 · <span class="auto-tag">AUTO</span></b><p>检测到桌面材料发生变化，已自动抓拍。</p></div></div>
+            <div class="event"><div class="event-thumb" data-kind="F8" style="--r:2deg"></div><div class="event-text"><b>14:47 · <span class="manual-tag">留一刻</span></b><p>杯沿的釉好像有点太厚。</p></div></div>
+            <div class="event"><div class="event-thumb" data-kind="AUTO" style="--r:-1deg"></div><div class="event-text"><b>15:03 · <span class="auto-tag">AUTO</span></b><p>物料替换，系统静默记录了一张画面。</p></div></div>
+          </div>
+        </article></div>
+
+        <div class="drag-block" id="notesBlock" style="--left:0px;--top:420px;--w:315px"><article class="paper-card" style="--card-rot:1.2deg;background:#f8f5ea">
+          <span class="kicker">04 / SESSION NOTES</span><h3>说过的话，已经写下来了</h3>
+          <div class="stat-grid"><div class="stat"><strong id="durationStat">00:00</strong><span>创作时长</span></div><div class="stat"><strong id="nodeStat">3</strong><span>关键节点</span></div></div>
+          <div id="voiceNotes"><div class="voice-note" style="--r:-1deg"><b>14:47 · VOICE</b><p>“这个边缘的堆积，其实挺有意思的。”</p></div></div>
+        </article></div>
+
+        <div class="drag-block" id="controlBlock" style="--left:345px;--top:465px;--w:1000px"><article class="paper-card taped" style="--card-rot:-.5deg;background:#f4f5f0;border:2px dashed #b9bcaf">
+          <span class="kicker">05 / HANDS-FREE CONTROL</span><h3>不用停下来打字</h3>
+          <div class="control-strip">
+            <button class="hw-btn" id="pauseBtn">Ⅱ 暂停</button>
+            <button class="hw-btn" id="markBtn">◉ 留一刻</button>
+            <button class="hw-btn voice" id="voiceBtn">〰 按住说话</button>
+            <button class="hw-btn dark" id="endBtn">结束创作</button>
+          </div><p class="control-tip" id="controlTip">开始创作后：留一刻会新增节点；按住说话时麦克风才开启；松开后自动转成文字。</p>
+        </article></div>
+      </div>
+    </section>
+
+    <!-- MEMORY -->
+    <section class="pc-page" id="page-memory">
+      <div class="page-title"><h2>创作时光库</h2><span>MEMORY / EACH SESSION BECOMES A CARD, NOT A MESSY FOLDER TREE</span></div>
+      <div class="page-canvas" id="canvas-memory">
+        <div class="drag-block" id="searchBlock" style="--left:0px;--top:10px;--w:370px"><article class="paper-card taped" style="--card-rot:-1.4deg">
+          <span class="kicker">01 / SEARCH & FILTER</span><h3>找找以前做过的东西……</h3><input class="search-field" id="memorySearch" placeholder="例如：连接方式 / 蓝釉 / 杯沿" />
+          <div class="filter-row"><button class="filter explore" data-filter="explore">探索</button><button class="filter create active" data-filter="create">创作</button><button class="filter execute" data-filter="execute">执行</button><button class="filter recover" data-filter="recover">恢复</button><button class="filter" data-filter="all">全部</button></div>
+          <div class="octo-note"><span class="octo-mini"></span><span id="searchHint">搜“蓝釉”，我会把过去相关的尝试一起找出来。</span></div>
+        </article></div>
+
+        <div class="drag-block" id="wakeBlock" style="--left:995px;--top:18px;--w:330px"><article class="paper-card wake-card" style="--card-rot:1.1deg">
+          <span class="kicker">02 / DORMANT PROJECT</span><h3>还记得这个吗？</h3><div class="wake-photo"></div><p><strong>银色连接件测试</strong></p><p class="small">12 天前暂停。你最后一句话是：“这里先别焊死，我想再试一种结构。”</p><button class="btn accent" id="resumeBtn">继续这个项目 →</button>
+        </article></div>
+
+        <div class="drag-block" id="recordsBlock" style="--left:0px;--top:350px;--w:1325px"><article class="paper-card" style="--card-rot:.2deg;background:rgba(253,252,248,.72)">
+          <span class="kicker">03 / LIVING ARCHIVE</span><h3>拖拽整理创作记录</h3><p class="small">每次创作都是一张卡片。把相关卡片叠在一起，会自动形成一个手作资料夹；点击资料夹可以展开。</p>
+          <div id="recordBoard">
+            <article class="record-card" data-id="R001" data-title="海军蓝亮釉 · 2层" data-mode="create" style="left:4%;top:58px;--r:-2deg"><div class="record-meta"><span>2026.08.12 · 48m</span><span class="star">☆</span></div><div class="cover"></div><h4>海军蓝亮釉 · 2层</h4><p>尝试了 3 种釉层厚度，底部流动性较强。</p></article>
+            <article class="record-card" data-id="R002" data-title="杯沿厚度试片" data-mode="create" style="left:25%;top:210px;--r:2deg;background:#eef1d7"><div class="record-meta"><span>2026.08.06 · 31m</span><span class="star">★</span></div><div class="cover"></div><h4>杯沿厚度试片</h4><p>下一轮只改变施釉层数，不同时改泥料。</p></article>
+            <article class="record-card" data-id="R003" data-title="白色石器泥发色" data-mode="explore" style="left:50%;top:64px;--r:-1deg"><div class="record-meta"><span>2026.07.28 · 26m</span><span class="star">☆</span></div><div class="cover"></div><h4>白色石器泥发色</h4><p>同一釉料在不同泥料上的发色差异。</p></article>
+            <article class="record-card" data-id="R004" data-title="连接方式探索" data-mode="explore" style="left:74%;top:210px;--r:3deg;background:#f6edd7"><div class="record-meta"><span>2026.03.17 · 55m</span><span class="star">☆</span></div><div class="cover"></div><h4>连接方式探索</h4><p>半年以前的探索记录，包含当时的语音备注。</p></article>
+            <article class="record-card" data-id="R005" data-title="透明釉流动测试" data-mode="create" style="left:5%;top:390px;--r:1.5deg;background:#f8f5ea"><div class="record-meta"><span>2026.02.26 · 42m</span><span class="star">☆</span></div><div class="cover"></div><h4>透明釉流动测试</h4><p>记录高温下釉层向杯底移动的边界。</p></article>
+            <article class="record-card" data-id="R006" data-title="杯把连接草模" data-mode="explore" style="left:29%;top:380px;--r:-2.5deg;background:#eef1d7"><div class="record-meta"><span>2026.02.08 · 36m</span><span class="star">★</span></div><div class="cover"></div><h4>杯把连接草模</h4><p>保留三种连接结构，准备下一轮逐个验证。</p></article>
+            <article class="record-card" data-id="R007" data-title="边缘堆积观察" data-mode="recover" style="left:53%;top:395px;--r:2deg;background:#eef3f7"><div class="record-meta"><span>2026.01.19 · 24m</span><span class="star">☆</span></div><div class="cover"></div><h4>边缘堆积观察</h4><p>复盘失败试片时发现了一条新的形式线索。</p></article>
+            <article class="record-card" data-id="R008" data-title="泥料收缩对照" data-mode="execute" style="left:76%;top:375px;--r:-1.5deg;background:#f6edd7"><div class="record-meta"><span>2025.12.21 · 51m</span><span class="star">☆</span></div><div class="cover"></div><h4>泥料收缩对照</h4><p>把重复测量整理成一组可回看的对照记录。</p></article>
+          </div>
+        </article></div>
+      </div>
+    </section>
+
+    <!-- REVIEW -->
+    <section class="pc-page" id="page-review">
+      <div class="page-title"><h2>单场完整复盘</h2><span>REVIEW / UNDERSTAND WHY YOU CREATED THIS WAY</span></div>
+      <div class="page-canvas" id="canvas-review">
+        <div class="drag-block" id="reviewHeader" style="--left:0px;--top:10px;--w:360px"><article class="paper-card taped" style="--card-rot:-1.4deg"><span class="kicker">01 / SESSION</span><h3>蓝色杯子实验</h3><p class="mono small">2026.08.12 · 48 MIN · CREATE MODE</p><div class="wake-photo" style="height:155px"></div><div class="octo-note"><span class="octo-mini"></span><span>不需要从头看录像，我把空白时间折起来了。</span></div></article></div>
+
+        <div class="drag-block" id="reviewTimeline" style="--left:390px;--top:0px;--w:580px"><article class="paper-card pinned" style="--card-rot:.6deg"><span class="kicker">02 / SIMPLIFIED TIMELINE</span><h3>你真正动过、想过、改过的时刻</h3><div class="review-line">
+          <div class="review-node" style="--offset:0px;--r:-.5deg"><b>14:02 · AUTO</b><p>开始上第一层蓝釉。</p></div>
+          <div class="review-node" style="--offset:18px;--r:.8deg"><b>14:32 · 留一刻</b><p>“杯沿好像有点厚，但我还不想改。”</p></div>
+          <div class="review-node" style="--offset:-8px;--r:-.6deg"><b>14:47 · 15 MIN PAUSE</b><p>这里停留了约 15 分钟，然后保留了失败边缘作为新线索。</p></div>
+          <div class="review-node" style="--offset:24px;--r:.5deg"><b>15:03 · VOICE</b><p>“下一轮只改一个变量：施釉层数。”</p></div>
+        </div></article></div>
+
+        <div class="drag-block" id="rhythmBlock" style="--left:995px;--top:20px;--w:330px"><article class="paper-card" style="--card-rot:-1deg;background:#f7efd4"><span class="kicker">03 / YOUR RHYTHM</span><h3>我发现你……</h3><p class="rhythm">你在真正动手之后会反复停下来观察边缘细节。</p><p>这一次你有 3 次重新判断，但第三次改动最小。你倾向于先保留“可能有问题”的部分，再用下一轮验证。</p><p class="small">这不是分数，也不是评价，只是把你的创作节奏说清楚。</p></article></div>
+
+        <div class="drag-block" id="principleBlock" style="--left:0px;--top:510px;--w:360px"><article class="paper-card" style="--card-rot:1deg;background:#eef1d7"><span class="kicker">04 / PRINCIPLE</span><h3>这次留下的创作原则</h3><p style="font-size:17px;font-weight:bold;color:var(--accent)">“我会先用更小的变量变化验证材料边界。”</p><p class="mono small">依据回链：R001 / 14:47 / 15:03</p></article></div>
+
+        <div class="drag-block" id="exportBlock" style="--left:390px;--top:600px;--w:935px"><article class="paper-card export-card" style="--card-rot:-.4deg"><span class="octo-mini"></span><h3>把这次过程带走</h3><p>导出截图 + 文字笔记 + 简化时间线；不输出原始音视频文件。</p><div class="btn-row" style="justify-content:center"><button class="btn accent" id="exportReview">导出复盘文档</button><button class="btn" id="backMemory">回到时光库</button></div></article></div>
+      </div>
+    </section>
+
+    <!-- SETTING -->
+    <section class="pc-page" id="page-setting">
+      <div class="page-title"><h2>设置</h2><span>SETTING / SIMPLE WORDS, CLEAR CONTROL, NO TECHNICAL JARGON</span></div>
+      <div class="page-canvas" id="canvas-setting">
+        <div class="drag-block" id="privacyBlock" style="--left:0px;--top:10px;--w:410px"><article class="paper-card privacy-card taped" style="--card-rot:-1.4deg"><span class="kicker">01 / PRIVACY</span><h3>数据只留在你的电脑里</h3><div class="setting"><div><span>本地存储不上云</span><small>画面、音频、转写默认只保存在本机</small></div><button class="switch on" aria-label="本地存储"></button></div><div class="setting"><div><span>录制状态必须可见</span><small>录制时顶部红点一直亮，不做“暗中运行”</small></div><button class="switch on"></button></div><div class="setting"><div><span>麦克风只在按住说话时打开</span><small>松开后立即回到 MIC OFF</small></div><button class="switch on"></button></div><div class="octo-note"><span class="octo-mini"></span><span>放心，我没有偷偷上传，也不会一直听。</span></div></article></div>
+
+        <div class="drag-block" id="feedbackBlock" style="--left:445px;--top:0px;--w:410px"><article class="paper-card" style="--card-rot:.8deg"><span class="kicker">02 / FEEDBACK</span><h3>灯光与声音提醒</h3><div class="setting"><div><span>录制灯光提醒</span><small>录制红色、暂停黄色、留一刻蓝色闪一下</small></div><button class="switch on"></button></div><div class="setting"><div><span>轻提示音</span><small>只在切模式、留一刻、拖拽归档等关键动作出现</small></div><button class="switch on" id="soundSwitch"></button></div><div class="setting"><div><span>界面配色</span><small>燕麦纸 / 紫罗兰 / 草绿色 / 恢复黄</small></div><button class="btn">更换</button></div></article></div>
+
+        <div class="drag-block" id="archiveSetting" style="--left:890px;--top:20px;--w:410px"><article class="paper-card pinned" style="--card-rot:-.8deg"><span class="kicker">03 / ARCHIVE</span><h3>导出与归档</h3><div class="setting"><div><span>默认导出路径</span><small>作品集、课堂汇报和长期留档都从这里导出</small></div></div><div class="path">~/Whisper Hands / Archive</div><div class="btn-row" style="margin-top:12px"><button class="btn">选择路径</button><button class="btn">导出全部</button></div></article></div>
+
+        <div class="drag-block" id="dangerBlock" style="--left:250px;--top:480px;--w:820px"><article class="paper-card danger" style="--card-rot:.3deg"><span class="kicker">04 / CLEAN</span><h3>一键清空全部记录</h3><p>这会清空演示中的所有本地记录。现实产品中，T5 屏、PC 端和物理复位都应能执行清空。</p><div class="btn-row"><button class="btn accent" id="clearBtn">清空全部记录</button><button class="btn" id="homeBtn">回到首页</button></div></article></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+
+<aside id="quickRecordDetail" aria-hidden="true">
+  <button class="quick-detail-close" id="quickRecordDetailClose">CLOSE ×</button>
+  <div class="quick-detail-id" id="quickDetailId">R001</div>
+  <h3 class="quick-detail-title" id="quickDetailTitle">作品记录</h3>
+  <div class="quick-detail-meta" id="quickDetailMeta"></div>
+  <div class="quick-detail-cover"></div>
+  <section class="quick-detail-section"><h5>本次记录摘要</h5><p id="quickDetailSummary"></p></section>
+  <section class="quick-detail-section"><h5>MOMENTS / 被记住的时刻</h5><div id="quickDetailMoments"></div></section>
+  <section class="quick-detail-section"><h5>VOICE NOTE</h5><p id="quickDetailVoice"></p></section>
+  <section class="quick-detail-section quick-detail-reflect"><h5>下次继续</h5><p id="quickDetailReflect"></p><div class="octo-note"><span class="octo-mini"></span><span>慢慢翻，我帮你记着看到哪一张。</span></div></section>
+</aside>
+
+<div id="folderView" aria-hidden="true">
+  <div class="folder-view-shell">
+    <div class="folder-view-head">
+      <button class="folder-view-back" id="folderViewBack">← BACK TO MEMORY</button>
+      <div class="folder-view-title-wrap"><h3 class="folder-view-title" id="folderViewTitle">创作资料夹</h3><div class="folder-view-sub" id="folderViewSub">R001 — R006 · 6 RECORDS</div></div>
+      <div class="folder-view-tools"><div class="folder-sort">SORT / NUMBER ↑</div><span class="octo-mini"></span></div>
+    </div>
+    <div class="folder-view-body" id="folderViewBody">
+      <div class="folder-grid-wrap"><div class="folder-grid" id="folderGrid"></div></div>
+      <aside class="folder-detail" id="folderDetail">
+        <button class="detail-close" id="folderDetailClose">CLOSE ×</button>
+        <div class="detail-id" id="detailId">R001</div><h3 class="detail-title" id="detailTitle">作品记录</h3><div class="detail-meta" id="detailMeta"></div><div class="detail-cover"></div>
+        <section class="detail-section"><h5>本次记录摘要</h5><p id="detailSummary"></p></section>
+        <section class="detail-section"><h5>MOMENTS / 被记住的时刻</h5><div id="detailMoments"></div></section>
+        <section class="detail-section"><h5>VOICE NOTE</h5><p id="detailVoice"></p></section>
+        <section class="detail-section detail-reflect"><h5>下次继续</h5><p id="detailReflect"></p><div class="octo-note"><span class="octo-mini"></span><span>这张记录随时可以重新拿回桌面。</span></div></section>
+      </aside>
+    </div>
+  </div>
+</div>
+<div id="folderDropZone"><b>← RELEASE TO DESK</b><span>拖到这里，移出资料夹，恢复成独立记录。</span></div>
+<div id="octoCompanion" aria-live="polite"><div class="octo-companion-bubble" id="octoCompanionText">慢一点也没关系，我会把过程记下来。</div><span class="octo-mini"></span></div>
+
+<div id="finishModal" aria-hidden="true"><div class="finish-paper"><span class="kicker">SESSION DONE</span><h3>今天先到这里。</h3><div class="finish-summary"><span id="finishDuration">48 MIN</span> · <span id="finishNodes">6 NODES</span> · CREATE MODE</div><p>这一场创作已经收好。下面这些是刚才最重要的几个瞬间。</p><div class="finish-thumbs"><div class="finish-thumb" style="--r:-3deg"></div><div class="finish-thumb" style="--r:2deg"></div><div class="finish-thumb" style="--r:-1deg"></div><div class="finish-thumb" style="--r:3deg"></div></div><div class="octo-note"><span class="octo-mini"></span><span>记住啦。你可以现在复盘，也可以以后再回来。</span></div><div class="btn-row" style="margin-top:16px"><button class="btn accent" id="goReviewBtn">去完整复盘 →</button><button class="btn" id="closeFinishBtn">先留在这里</button><button class="btn" id="deleteSessionBtn">删除本次记录</button></div></div></div>
+<div id="toast"></div>
+
+<script src="js/app.js"></script>
+</body>
+</html>

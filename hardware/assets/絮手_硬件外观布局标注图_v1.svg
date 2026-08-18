@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1024" height="1536" viewBox="0 0 1024 1536">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#dd643d"/>
+    </marker>
+    <style>
+      .labelbox { fill: #fffdf9; fill-opacity: .96; stroke: #275c50; stroke-width: 2; rx: 8; }
+      .id { fill: #275c50; font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; font-size: 18px; font-weight: 700; }
+      .label { fill: #1d302d; font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; font-size: 17px; font-weight: 600; }
+      .small { fill: #365e56; font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; font-size: 14px; }
+      .call { fill: none; stroke: #dd643d; stroke-width: 2.5; marker-end: url(#arrow); }
+      .dim { fill: none; stroke: #dd643d; stroke-width: 2; marker-start: url(#arrow); marker-end: url(#arrow); }
+      .guide { fill: none; stroke: #dd643d; stroke-width: 1.5; stroke-dasharray: 6 5; }
+      .dimtext { fill: #b94729; font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; font-size: 15px; font-weight: 700; }
+      .title { fill: #1d302d; font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; font-size: 27px; font-weight: 800; }
+      .subtitle { fill: #486c65; font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; font-size: 14px; }
+    </style>
+  </defs>
+
+  <image x="0" y="0" width="1024" height="1536" xlink:href="絮手_硬件外观布局概念图_v1.png"/>
+  <rect x="26" y="24" width="590" height="68" rx="12" fill="#fffdf9" fill-opacity=".95"/>
+  <text x="50" y="55" class="title">絮手｜硬件外观布局示意</text>
+  <text x="50" y="78" class="subtitle">概念比例图：最终开孔、孔距和壳体厚度以实物尺量为准</text>
+
+  <path class="call" d="M 786 158 L 565 220"/>
+  <rect class="labelbox" x="746" y="105" width="238" height="68"/>
+  <text class="id" x="762" y="132">01</text>
+  <text class="label" x="800" y="132">T5 拍摄头</text>
+  <text class="small" x="762" y="156">主板、屏幕、镜头、音频</text>
+
+  <path class="call" d="M 87 488 L 285 424"/>
+  <rect class="labelbox" x="30" y="495" width="212" height="68"/>
+  <text class="id" x="46" y="522">02</text>
+  <text class="label" x="84" y="522">俯拍镜头</text>
+  <text class="small" x="46" y="546">垂直朝工作台</text>
+
+  <path class="call" d="M 596 280 L 364 250"/>
+  <rect class="labelbox" x="607" y="252" width="344" height="68"/>
+  <text class="id" x="623" y="279">03</text>
+  <text class="label" x="661" y="279">屏幕朝上</text>
+  <text class="small" x="623" y="303">用户可低头查看录像状态</text>
+
+  <path class="call" d="M 675 430 L 564 353"/>
+  <rect class="labelbox" x="688" y="407" width="282" height="68"/>
+  <text class="id" x="704" y="434">04</text>
+  <text class="label" x="742" y="434">T5 USB-C／TF</text>
+  <text class="small" x="704" y="458">保留插拔与检修空间</text>
+
+  <path class="call" d="M 748 748 L 416 890"/>
+  <rect class="labelbox" x="750" y="686" width="235" height="68"/>
+  <text class="id" x="766" y="713">05</text>
+  <text class="label" x="804" y="713">打印旋钮帽</text>
+  <text class="small" x="766" y="737">旋转选功能，按下执行</text>
+
+  <path class="call" d="M 700 822 L 411 805"/>
+  <rect class="labelbox" x="706" y="788" width="276" height="68"/>
+  <text class="id" x="722" y="815">06</text>
+  <text class="label" x="760" y="815">RGB 灯条</text>
+  <text class="small" x="722" y="839">磨砂灯窗，给出状态回执</text>
+
+  <path class="call" d="M 79 1008 L 205 1050"/>
+  <rect class="labelbox" x="30" y="944" width="240" height="68"/>
+  <text class="id" x="46" y="971">07</text>
+  <text class="label" x="84" y="971">柔软敲击区</text>
+  <text class="small" x="46" y="995">TPU／硅胶 + 传振片</text>
+
+  <path class="call" d="M 667 643 L 402 742"/>
+  <rect class="labelbox" x="679" y="585" width="292" height="68"/>
+  <text class="id" x="695" y="612">08</text>
+  <text class="label" x="733" y="612">手势感应窗口</text>
+  <text class="small" x="695" y="636">APDS9960 正面朝上</text>
+
+  <path class="call" d="M 760 1125 L 595 1090"/>
+  <rect class="labelbox" x="744" y="1126" width="250" height="68"/>
+  <text class="id" x="760" y="1153">09</text>
+  <text class="label" x="798" y="1153">ESP32 与分线点</text>
+  <text class="small" x="760" y="1177">壳内焊接，不用面包板</text>
+
+  <path class="call" d="M 704 1336 L 866 1242"/>
+  <rect class="labelbox" x="651" y="1340" width="328" height="68"/>
+  <text class="id" x="667" y="1367">10</text>
+  <text class="label" x="705" y="1367">ESP USB-C 维护口</text>
+  <text class="small" x="667" y="1391">供电、烧录、串口调试</text>
+
+  <path class="guide" d="M 701 452 C 744 455, 754 488, 770 530"/>
+  <path class="dim" d="M 716 505 C 742 508, 748 524, 762 548"/>
+  <text class="dimtext" x="700" y="563">线束弯曲区 ≥15 mm</text>
+
+  <path class="guide" d="M 94 1421 L 94 1462 M 906 1421 L 906 1462"/>
+  <path class="dim" d="M 104 1451 L 896 1451"/>
+  <text class="dimtext" x="378" y="1441">底座宽 160–200 mm</text>
+
+  <path class="guide" d="M 917 1015 L 956 1015 M 917 1322 L 956 1322"/>
+  <path class="dim" d="M 944 1025 L 944 1312"/>
+  <text class="dimtext" x="792" y="1284">底座深 95–125 mm</text>
+
+  <path class="guide" d="M 550 448 L 608 448 M 550 663 L 608 663"/>
+  <path class="dim" d="M 592 456 L 592 655"/>
+  <text class="dimtext" x="612" y="560">镜头距工作台</text>
+  <text class="dimtext" x="612" y="582">350–500 mm</text>
+</svg>

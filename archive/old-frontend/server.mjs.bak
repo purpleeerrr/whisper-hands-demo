@@ -1,0 +1,241 @@
+import http from 'node:http';
+import { createReadStream } from 'node:fs';
+import { stat } from 'node:fs/promises';
+import { extname, resolve, sep } from 'node:path';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+import { Readable } from 'node:stream';
+
+import { normalizeHardwareEvent } from './app/event-protocol.js';
+
+const HERE = fileURLToPath(new URL('.', import.meta.url));
+const DEFAULT_INDEX = 'Whisper-Hands-完整网站.html';
+const ONLINE_WINDOW_MS = 15_000;
+const DUPLICATE_WINDOW_MS = 30_000;
+const MAX_JSON_BYTES = 64 * 1024;
+
+const MIME_TYPES = new Map([
+  ['.css', 'text/css; charset=utf-8'],
+  ['.html', 'text/html; charset=utf-8'],
+  ['.js', 'text/javascript; charset=utf-8'],
+  ['.json', 'application/json; charset=utf-8'],
+  ['.mjs', 'text/javascript; charset=utf-8'],
+  ['.png', 'image/png'],
+  ['.svg', 'image/svg+xml'],
+  ['.webm', 'video/webm'],
+]);
+
+function sendJson(response, statusCode, value) {
+  response.writeHead(statusCode, {
+    'content-type': 'application/json; charset=utf-8',
+    'cache-control': 'no-store',
+  });
+  response.end(JSON.stringify(value));
+}
+
+async function readJson(request) {
+  const chunks = [];
+  let length = 0;
+  for await (const chunk of request) {
+    length += chunk.length;
+    if (length > MAX_JSON_BYTES) throw new TypeError('request body is too large');
+    chunks.push(chunk);
+  }
+  if (chunks.length === 0) throw new TypeError('request body is required');
+  try {
+    return JSON.parse(Buffer.concat(chunks).toString('utf8'));
+  } catch {
+    throw new TypeError('request body must be valid JSON');
+  }
+}
+
+function publicPath(rootDir, pathname) {
+  const relative = pathname === '/' ? DEFAULT_INDEX : decodeURIComponent(pathname).replace(/^\/+/, '');
+  const candidate = resolve(rootDir, relative);
+  const root = resolve(rootDir);
+  if (candidate !== root && !candidate.startsWith(`${root}${sep}`)) return null;
+  return candidate;
+}
+
+export function createBridgeServer({
+  rootDir = HERE,
+  t5BaseUrl = process.env.T5_BASE_URL || 'http://192.168.4.1',
+  demoVideoPath = process.env.DEMO_VIDEO_PATH || resolve(rootDir, '../90_外部参考/ca4c8e0e32ed322cb47e957f8ff037a8.mp4'),
+  now = Date.now,
+  fetchImpl = fetch,
+} = {}) {
+  const clients = new Set();
+  const recentSequence = new Map();
+  const devices = {
+    esp32: { lastSeenAt: null, deviceId: null },
+    t5: { lastSeenAt: null, baseUrl: t5BaseUrl },
+  };
+
+  function broadcast(event) {
+    const packet = `event: hardware\ndata: ${JSON.stringify(event)}\n\n`;
+    for (const client of clients) client.write(packet);
+  }
+
+  function online(lastSeenAt) {
+    return Number.isFinite(lastSeenAt) && now() - lastSeenAt <= ONLINE_WINDOW_MS;
+  }
+
+  const server = http.createServer(async (request, response) => {
+    const url = new URL(request.url || '/', 'http://localhost');
+    try {
+      if (request.method === 'OPTIONS') {
+        response.writeHead(204, {
+          'access-control-allow-origin': '*',
+          'access-control-allow-methods': 'GET,POST,OPTIONS',
+          'access-control-allow-headers': 'content-type',
+        });
+        response.end();
+        return;
+      }
+
+      if (request.method === 'GET' && url.pathname === '/api/hardware/events') {
+        response.writeHead(200, {
+          'content-type': 'text/event-stream; charset=utf-8',
+          'cache-control': 'no-cache, no-transform',
+          connection: 'keep-alive',
+          'x-accel-buffering': 'no',
+        });
+        response.write('retry: 1500\n\n');
+        clients.add(response);
+        request.on('close', () => clients.delete(response));
+        return;
+      }
+
+      if (request.method === 'POST' && url.pathname === '/api/hardware/event') {
+        const event = normalizeHardwareEvent(await readJson(request), now);
+        const seenAt = now();
+        const recent = recentSequence.get(event.deviceId);
+        const duplicate = recent?.seq === event.seq && seenAt - recent.seenAt <= DUPLICATE_WINDOW_MS;
+        devices.esp32 = { deviceId: event.deviceId, lastSeenAt: seenAt };
+        if (!duplicate) {
+          recentSequence.set(event.deviceId, { seq: event.seq, seenAt });
+          broadcast(event);
+        }
+        sendJson(response, 202, { accepted: true, duplicate, event: event.event });
+        return;
+      }
+
+      if (request.method === 'GET' && url.pathname === '/api/device/status') {
+        sendJson(response, 200, {
+          esp32: { ...devices.esp32, online: online(devices.esp32.lastSeenAt) },
+          t5: { ...devices.t5, online: online(devices.t5.lastSeenAt) },
+          bridge: { online: true, now: now() },
+        });
+        return;
+      }
+
+      if (request.method === 'GET' && url.pathname === '/api/config') {
+        sendJson(response, 200, {
+          t5BaseUrl,
+          streamUrl: '/api/t5/stream',
+          snapshotUrl: '/api/t5/snapshot',
+        });
+        return;
+      }
+
+      if (request.method === 'GET' && (url.pathname === '/api/t5/stream' || url.pathname === '/api/t5/snapshot')) {
+        const upstreamPath = url.pathname.endsWith('/snapshot') ? '/snapshot' : '/stream';
+        const upstreamOptions = {
+          headers: { accept: upstreamPath === '/stream' ? 'multipart/x-mixed-replace,image/jpeg' : 'image/jpeg' },
+        };
+        if (upstreamPath === '/snapshot') upstreamOptions.signal = AbortSignal.timeout(5_000);
+        const upstream = await fetchImpl(`${t5BaseUrl.replace(/\/$/, '')}${upstreamPath}`, upstreamOptions);
+        if (!upstream.ok || !upstream.body) throw new Error(`T5 returned HTTP ${upstream.status}`);
+        devices.t5.lastSeenAt = now();
+        const headers = {
+          'content-type': upstream.headers.get('content-type') || 'application/octet-stream',
+          'cache-control': 'no-store, no-cache, must-revalidate',
+          connection: 'close',
+        };
+        response.writeHead(200, headers);
+        Readable.fromWeb(upstream.body).on('error', () => response.destroy()).pipe(response);
+        return;
+      }
+
+      if ((request.method === 'GET' || request.method === 'HEAD') && url.pathname === '/demo/sample.mp4') {
+        const info = await stat(demoVideoPath);
+        const range = request.headers.range;
+        const baseHeaders = {
+          'content-type': 'video/mp4',
+          'accept-ranges': 'bytes',
+          'cache-control': 'no-cache',
+        };
+        if (range) {
+          const match = /^bytes=(\d*)-(\d*)$/.exec(range);
+          if (!match) {
+            response.writeHead(416, { ...baseHeaders, 'content-range': `bytes */${info.size}` });
+            response.end();
+            return;
+          }
+          const start = match[1] ? Number(match[1]) : 0;
+          const end = match[2] ? Math.min(Number(match[2]), info.size - 1) : info.size - 1;
+          if (!Number.isSafeInteger(start) || !Number.isSafeInteger(end) || start > end || start >= info.size) {
+            response.writeHead(416, { ...baseHeaders, 'content-range': `bytes */${info.size}` });
+            response.end();
+            return;
+          }
+          response.writeHead(206, {
+            ...baseHeaders,
+            'content-range': `bytes ${start}-${end}/${info.size}`,
+            'content-length': end - start + 1,
+          });
+          if (request.method === 'HEAD') response.end();
+          else createReadStream(demoVideoPath, { start, end }).pipe(response);
+          return;
+        }
+        response.writeHead(200, { ...baseHeaders, 'content-length': info.size });
+        if (request.method === 'HEAD') response.end();
+        else createReadStream(demoVideoPath).pipe(response);
+        return;
+      }
+
+      if (request.method !== 'GET' && request.method !== 'HEAD') {
+        sendJson(response, 405, { error: 'method not allowed' });
+        return;
+      }
+
+      const path = publicPath(rootDir, url.pathname);
+      if (!path) {
+        sendJson(response, 404, { error: 'not found' });
+        return;
+      }
+      const info = await stat(path);
+      if (!info.isFile()) throw new Error('not a file');
+      response.writeHead(200, {
+        'content-type': MIME_TYPES.get(extname(path).toLowerCase()) || 'application/octet-stream',
+        'content-length': info.size,
+        'cache-control': url.pathname === '/' ? 'no-store' : 'no-cache',
+      });
+      if (request.method === 'HEAD') response.end();
+      else createReadStream(path).pipe(response);
+    } catch (error) {
+      if (response.headersSent) {
+        response.destroy(error);
+        return;
+      }
+      const isClientError = error instanceof TypeError;
+      sendJson(response, isClientError ? 400 : 502, { error: error.message || 'bridge error' });
+    }
+  });
+
+  server.on('close', () => {
+    for (const client of clients) client.end();
+    clients.clear();
+  });
+  return server;
+}
+
+const isMain = process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href;
+if (isMain) {
+  const port = Number(process.env.PORT || 4173);
+  const host = process.env.HOST || '0.0.0.0';
+  const server = createBridgeServer();
+  server.listen(port, host, () => {
+    console.log(`Whisper Hands: http://127.0.0.1:${port}`);
+    console.log(`T5 stream source: ${process.env.T5_BASE_URL || 'http://192.168.4.1'}/stream`);
+  });
+}

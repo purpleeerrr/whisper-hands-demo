@@ -1,1 +1,0 @@
-"""Whisper Hands application services."""

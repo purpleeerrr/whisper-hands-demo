@@ -1,0 +1,11 @@
+Whisper Hands 网站源码包
+
+文件说明：
+- Whisper-Hands-完整网站.html：网站源码与可运行网页，CSS、JavaScript 和资源均已包含在单个 HTML 文件中。
+
+查看方法：
+1. 解压压缩包。
+2. 双击“Whisper-Hands-完整网站.html”。
+3. 使用 Chrome、Edge 等现代浏览器打开。
+
+本版本已将“正在创作”页面的背景应用到“创作时光库”和“设置”页面。

@@ -8,3 +8,21 @@ dist/
 coverage/
 __pycache__/
 *.py[cod]
+
+# 本地工具链，可重新安装，不进入 Git
+.venv-platformio/
+
+# 编译产物（bin/）含临时热点凭据，不上传；源码已脱敏后纳入 Git
+firmware/**/bin/
+# 真实路演凭据，本地保留，绝不提交
+firmware/esp32-control/include/user_config.secret.h
+
+# 包内旧构建产物只供本机追溯
+archive/advanced-firmware/
+archive/build-cache/
+
+# T5 本地仓库、工具链和构建缓存约 4GB
+hardware/local-tuyaopen/
+
+# 授权文件和其他本机私密资料
+hardware/private/

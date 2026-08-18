@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Whisper Hands · Identity Prompt Lab</title>
+  <link rel="stylesheet" href="css/prompt-lab.css">
+</head>
+<body>
+  <main class="lab-shell">
+    <header class="lab-header">
+      <div><p class="eyebrow">WHISPER HANDS · INTERNAL LAB</p><h1>Creator Identity Prompt Lab</h1></div>
+      <a href="index.html">← 回到 Onboarding</a>
+    </header>
+
+    <section class="boundary-note">
+      <strong>安全沙盒</strong>
+      <span>AI 结果不会自动写入。只有你确认候选并应用 Identity Patch 后，候选才会进入独立的 Lab Identity Store；原始输入不会被保存，也不会污染正式 Creator Identity Kernel。</span>
+    </section>
+
+    <div class="lab-grid">
+      <section class="lab-panel input-panel">
+        <p class="step-label">01 · 选择案例或自己输入</p>
+        <div class="case-buttons" id="caseButtons"></div>
+
+        <label class="field">
+          <span>星球</span>
+          <input value="一个总会注意到的细节" disabled>
+        </label>
+        <label class="field">
+          <span>用户说的话</span>
+          <textarea id="userInput" maxlength="1800" placeholder="例如：我总会注意雨后玻璃上缓慢移动的蓝色光线。"></textarea>
+        </label>
+        <label class="field">
+          <span>已有 Kernel · 可留空</span>
+          <textarea id="existingKernel" maxlength="1200" placeholder="每行一条已经由用户确认的长期理解。"></textarea>
+        </label>
+
+        <div class="run-actions">
+          <button type="button" id="showExpected">查看标准答案 <small>0 次 API</small></button>
+          <button type="button" class="primary" id="runAi">运行一次 AI <small>1 次调用</small></button>
+        </div>
+        <p class="run-status" id="runStatus">尚未运行。</p>
+      </section>
+
+      <section class="lab-panel output-panel">
+        <div class="output-head"><p class="step-label">02 · 检查 AI 有没有越界</p><span id="usageLabel">0 API</span></div>
+        <div class="scorecard" id="scorecard"></div>
+        <div class="result-groups" id="resultGroups">
+          <div class="empty-state">选择一个案例，先查看标准答案；满意后再运行 AI。</div>
+        </div>
+        <details class="raw-json"><summary>查看结构化 JSON</summary><pre id="rawJson">{}</pre></details>
+      </section>
+    </div>
+
+    <section class="lab-panel patch-panel">
+      <div class="output-head"><p class="step-label">03 · USER REVIEW → IDENTITY PATCH → LAB KERNEL</p><span id="revisionLabel">REVISION 0</span></div>
+      <div class="patch-explainer"><b>确认 Fact</b><span>recurring / long_term Fact 可以进入 Lab Kernel。</span><b>确认 Thread</b><span>先保存为已确认 Thread；至少两份独立证据支持后才晋升 Kernel。</span></div>
+      <div class="patch-actions"><button type="button" class="primary" id="applyPatch" disabled>应用 Identity Patch</button><button type="button" id="resetKernel">清空 Lab 数据</button></div>
+      <p class="run-status" id="patchStatus">先在上面的 Fact 或 Thread 卡片中确认、改写或拒绝。</p>
+      <div class="kernel-grid">
+        <div><h3>CONFIRMED FACTS</h3><div id="labFacts" class="kernel-list"></div></div>
+        <div><h3>IDENTITY THREADS</h3><div id="labThreads" class="kernel-list"></div></div>
+        <div><h3>COMPILED LAB KERNEL</h3><div id="labKernel" class="kernel-list"></div></div>
+      </div>
+      <details class="raw-json"><summary>查看最后一个 Identity Patch</summary><pre id="patchJson">{}</pre></details>
+    </section>
+  </main>
+  <script src="js/identity-kernel.js"></script>
+  <script src="js/prompt-lab.js"></script>
+</body>
+</html>

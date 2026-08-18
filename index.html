@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>絮手 Whisper Hands · 完整网站</title>
+<link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+<div id="app">
+  <canvas id="world" width="480" height="270" aria-hidden="true"></canvas>
+  <div class="scanlines"></div><div class="noise"></div><div class="vignette"></div><div class="flash" id="flash"></div>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span>Whisper Hands 絮手</span></div>
+      <nav class="topnav"><button type="button">关于絮手</button><button type="button" id="musicBtn" class="sound-btn on">MUSIC ON</button><button type="button" id="fxBtn" class="sound-btn on">FX ON</button></nav>
+  </header>
+
+  <main id="journey">
+    <section class="scene active" id="introScene">
+      <div class="scene-layer" id="introLayer">
+        <div class="intro-quote" id="introQuote">离开桌面以后，<br>你的创作仍然在这里生长。</div>
+        <div class="intro-sidecopy" id="introSide"><small>WHISPER HANDS · PROCESS MEMORY</small>絮手记录着制作时的每一次停顿、尝试与转弯。</div>
+        <div class="hero-left" id="heroLeft" style="opacity:0">
+          <p class="en">Whisper Hands · 宇宙花园</p>
+          <p class="cn">创作离开桌面，<br>也会在这里继续生长。</p>
+          <div class="note"><b>让痕迹留下来</b>一次停顿、一段试做、一个临时改变，都可以成为花园里继续生长的东西。</div>
+        </div>
+        <div class="hero-right" id="heroRight" style="opacity:0"><p class="en"><span>A garden remembers</span><span>what your hands leave behind.</span></p><p class="cn">移动鼠标，让一朵像素花先在宇宙里长出来。</p></div>
+        <div class="swipe-hint" id="introSwipe" style="opacity:0"><span class="chev">⌃</span>上滑开启探索</div>
+      </div>
+    </section>
+
+    <section class="scene" id="gateScene">
+      <div class="scene-layer">
+        <div class="focus-copy">先用一分钟，<br>让宇宙花园认识你的手。</div>
+        <button class="light-gate" id="lightGate" type="button" aria-label="点击发光星球进入"><span>点击发光的星球进入</span></button>
+      </div>
+    </section>
+
+    <section class="scene" id="hardwareScene">
+      <div class="scene-layer center-stage">
+        <h2 class="section-title">硬件连接中</h2>
+        <p class="section-sub">花开满一周，连接就完成。</p>
+        <canvas id="hardwarePlanet" width="180" height="180"></canvas>
+        <div class="hardware-status" id="hardwareStatus">PAIRING WITH WHISPER HANDS<small>00 / 24 BLOOMS</small></div>
+      </div>
+    </section>
+
+    <section class="scene" id="clueScene">
+      <div class="scene-layer">
+        <div class="scene-head"><h2>进入宇宙花园之前，先让它认识你。</h2><p>六颗星球代表六种线索；把鼠标放上去，看看哪一颗先让你停下来。</p></div>
+        <div class="clue-space" id="clueSpace"></div>
+        <div class="bottom-actions"><button type="button" class="text-action" id="clueSkip">先不说</button><span class="swipe-left"><i>←</i>向左滑动进入下一页</span></div>
+        <div class="editor" id="clueEditor"><span class="eyebrow">留下一点线索</span><h3 id="clueEditorTitle">一件喜欢的作品</h3><p class="helper">可以写下文字，也可以附上一张图片，让这颗星球更像你的记忆。</p><div class="editor-grid"><div><textarea id="clueText" placeholder="写下一点线索，或者一句现在想到的话……"></textarea><div class="ai-processing-notice"><b>AI 理解已开启</b><small>只发送当前文字、追问回答和最少量已确认 Meaning Slice；图片本体暂不发送。</small></div></div><label class="editor-upload"><input type="file" id="clueImage" accept="image/*"><img id="cluePreview" class="upload-preview" alt="预览"><div class="upload-tip" id="uploadTip"><b>添加一张图片</b>支持把参考图、旧作或随手拍放进来</div></label></div><footer><button type="button" id="clueCancel">暂不解释</button><button type="button" class="primary" id="clueSave">把它留在这颗星球 →</button></footer></div>
+      </div>
+    </section>
+
+    <section class="scene" id="followupScene">
+      <div class="scene-layer meaning-dialogue-wrap">
+        <aside class="meaning-source-card">
+          <small>YOUR FIRST CLUE · 原始线索</small>
+          <h3 id="followupClueTitle">一小块关于你的线索</h3>
+          <blockquote id="followupClueText">暂时没有文字，也可以从选择开始。</blockquote>
+          <p>原始内容只用于这次私人理解，不会自动进入 Meaning Layer。</p>
+        </aside>
+        <section class="meaning-question-card">
+          <p class="meaning-kicker" id="followupModeLabel">A GENTLE QUESTION · LOCAL MODE</p>
+          <h2 id="followupQuestion">这块线索里，你最想让我理解的是什么？</h2>
+          <textarea id="followupAnswer" maxlength="800" placeholder="不需要完整。一个细节、一种关系，或一句暂时还说不清的话都可以。"></textarea>
+          <p class="meaning-boundary">这一步不会诊断人格或情绪。系统只提出一个等待你确认的理解方向。</p>
+          <div class="meaning-actions"><button class="text-action" id="followupSkip" type="button">暂时不回答</button><button class="meaning-primary" id="followupNext" type="button">留下这句话，继续 →</button></div>
+        </section>
+      </div>
+    </section>
+
+    <section class="scene" id="starScene">
+      <div class="scene-layer">
+        <div class="scene-head"><h2>这里面最先抓住你的是什么？</h2><p>拖动星轨查看 · 点击发光星星选择 · 可以选择不止一个</p></div>
+        <div class="orbit-shell"><div class="orbit-field" id="starField"><div class="orbit-ring r1"></div><div class="orbit-ring r2"></div><div class="orbit-ring r3"></div></div></div>
+        <div class="orbit-instruction">拖动星轨查看 · 点击发光星星选择 · 可以选择不止一个</div>
+        <div class="bottom-actions click-next"><button type="button" class="text-action" id="starSkip">暂不解释</button><button type="button" class="text-action next-action" id="starNext">确认选择 · 继续 →</button></div>
+      </div>
+    </section>
+
+    <section class="scene" id="wayScene">
+      <div class="scene-layer">
+        <div class="scene-head"><h2>做东西的时候，哪些话比较像你？</h2><p>不用标准答案，只挑几句现在像你的</p></div>
+        <div class="orbit-shell"><div class="orbit-field" id="wayField"><div class="orbit-ring r1"></div><div class="orbit-ring r2"></div><div class="orbit-ring r3"></div></div></div>
+        <div class="orbit-instruction">DRAG 360° · CLICK A STAR TO GIVE IT COLOR</div>
+        <div class="bottom-actions click-next"><button type="button" class="text-action" id="waySkip">暂不解释</button><button type="button" class="text-action next-action" id="wayNext">确认选择 · 继续 →</button></div>
+      </div>
+    </section>
+
+    <section class="scene" id="magicScene">
+      <div class="scene-layer"><div class="magic-copy">正在把你刚刚留下的线索，<br>缝进花园里。</div><canvas id="magicCanvas" width="160" height="300"></canvas></div>
+    </section>
+
+    <section class="scene" id="shipScene">
+      <div class="scene-layer"><div class="ship-question">你愿意带一件过往作品进入花园吗？</div><div class="ships" id="ships"></div></div>
+    </section>
+
+    <section class="scene" id="workScene">
+      <div class="scene-layer"><div class="work-copy"><span class="k">YOUR FIRST WORK UNIVERSE</span><h2>你的作品，<br>第一次有了坐标。</h2><p>它们先围绕一颗星球运行，然后慢慢展开成一个可以被你继续探索的作品圈。</p></div><div class="work-field" id="workField"><div class="work-core" id="workCore"></div></div><div class="ring-hint" id="ringHint">作品正在围绕第一颗星球生长…</div><button class="start-create" id="startCreate" type="button">继续探索 <span>→</span></button></div>
+      <div class="work-detail" id="workDetail"><button type="button" class="detail-close" id="detailClose">CLOSE ×</button><div class="detail-grid"><div class="detail-media" id="detailMedia"></div><div class="detail-copy"><span class="k" id="detailK">WORK · 001</span><h2 id="detailTitle">未命名作品</h2><p class="detail-original" id="detailOriginal"></p><label class="work-intro-review" id="workIntroReview"><span>作品介绍 · 可以改成你的话</span><textarea id="detailDesc" maxlength="1200"></textarea></label><div class="work-ai-reading" id="detailAnalysis"><section><b>作品的可见形式</b><p id="detailVisual"></p></section><section><b>开放的灵感方向</b><p id="detailInspiration"></p></section><small id="detailAnalysisBoundary">这是等待你确认的作品解读初稿，不会自动改变 Creator Identity Kernel。</small></div><div class="work-review-actions" id="workReviewActions"><button type="button" id="workReadingReject">这不像我的作品</button><button type="button" class="confirm" id="workReadingConfirm">确认／按我的话保存</button><p id="workReviewStatus">尚未确认；AI 初稿不会进入后续知识库。</p></div><div class="detail-meta"><span id="detailTime"></span><span id="detailAnalysisState">PROCESS MEMORY · READY</span><span>点击关闭后回到作品圈</span></div></div></div></div>
+    </section>
+
+    <section class="scene" id="completeScene">
+      <div class="scene-layer completion-wrap completion-minimal">
+        <header class="completion-head"><h2 id="completionMessage">我好像开始知道，<br>你的眼睛会在哪里停下来了。</h2></header>
+        <div class="completion-swipe"><i>⌃</i><span>上滑开始创作</span></div>
+      </div>
+    </section>
+
+    <section class="scene" id="handoffScene">
+      <div class="scene-layer handoff-wrap"><canvas id="handoffOctopus" width="240" height="200" aria-label="章鱼正在逐渐填满颜色"></canvas></div>
+    </section>
+  </main>
+
+  <section class="cargo" id="cargo"><div class="cargo-left"><h2 id="cargoTitle">带一件作品进来。</h2><p>完成、未完成、失败品都可以。作品不是用来证明你是谁，只是让这个世界出现真实坐标。</p><label class="drop"><input id="workFiles" type="file" accept="image/jpeg,image/png,image/webp" multiple><div class="drop-label"><b>＋</b>DROP YOUR WORK HERE<br><small>JPG · PNG · WEBP</small></div><div class="previews" id="previews"></div></label></div><div class="cargo-right"><label class="field"><span>项目名称 · 可选</span><input id="projectTitle" placeholder="未命名作品"></label><label class="field"><span>大概什么时候</span><select id="projectTime"><option>最近</option><option>去年</option><option>更早</option><option>不记得了</option></select></label><label class="field"><span>为什么现在还想保留它？ · 可跳过</span><textarea id="projectReason"></textarea></label><div class="work-ai-status" id="workAiStatus">上传图片后，AI 会为每件作品分别生成解读初稿。</div><div class="cargo-actions"><button type="button" id="cargoBack">← 返回飞船</button><button type="button" class="go" id="cargoGo">让 AI 逐张看一眼，再进入花园 →</button></div></div></section>
+  <canvas id="trailCanvas"></canvas><div id="buddyDock"><div id="buddyMsg"></div><canvas id="buddyOcto" width="64" height="56"></canvas></div>
+</div>
+
+<script src="js/meaning-layer.js"></script>
+<script src="js/identity-kernel.js"></script>
+<script src="js/completion-summary.js"></script>
+<script src="js/ai-adapter.js"></script>
+<script src="js/app.js"></script>
+<script src="js/stitch.js"></script>
+</body>
+</html>
